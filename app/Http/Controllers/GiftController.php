@@ -3,77 +3,68 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gift;
-use Illuminate\Http\Request;
+use App\Http\Requests\GiftRequest;
 
 class GiftController extends Controller
 {
+    /**
+     * Affiche la liste des cadeaux
+     */
     public function index()
     {
         $gifts = Gift::all();
         return view('welcome', compact('gifts'));
     }
 
+    /**
+     * Affiche le formulaire de création
+     */
     public function create()
     {
         return view('gifts.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Enregistre un nouveau cadeau
+     */
+    public function store(GiftRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|min:3|max:50',
-            'url' => 'nullable|url:http,https',
-            'details' => 'nullable|string',
-            'price' => 'required|decimal:0,2|min:0',
-        ], [
-            'name.required' => 'Le nom est obligatoire.',
-            'name.min' => 'Le nom doit contenir au moins 3 caractères.',
-            'name.max' => 'Le nom ne peut pas dépasser 50 caractères.',
-            'url.url' => 'L\'URL doit commencer par http:// ou https://.',
-            'price.required' => 'Le prix est obligatoire.',
-            'price.decimal' => 'Le prix doit être un nombre avec au maximum 2 décimales.',
-            'price.min' => 'Le prix ne peut pas être négatif.',
-        ]);
-
-        Gift::create($validated);
+        Gift::create($request->validated());
 
         return redirect()->route('gifts.index')
             ->with('success', 'Cadeau créé avec succès !');
     }
 
+    /**
+     * Affiche un cadeau
+     */
     public function show(Gift $gift)
     {
         return view('gifts.show', compact('gift'));
     }
 
+    /**
+     * Affiche le formulaire d’édition
+     */
     public function edit(Gift $gift)
     {
         return view('gifts.edit', compact('gift'));
     }
 
-    public function update(Request $request, Gift $gift)
+    /**
+     * Met à jour un cadeau
+     */
+    public function update(GiftRequest $request, Gift $gift)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|min:3|max:50',
-            'url' => 'nullable|url:http,https',
-            'details' => 'nullable|string',
-            'price' => 'required|decimal:0,2|min:0',
-        ], [
-            'name.required' => 'Le nom est obligatoire.',
-            'name.min' => 'Le nom doit contenir au moins 3 caractères.',
-            'name.max' => 'Le nom ne peut pas dépasser 50 caractères.',
-            'url.url' => 'L\'URL doit commencer par http:// ou https://.',
-            'price.required' => 'Le prix est obligatoire.',
-            'price.decimal' => 'Le prix doit être un nombre avec au maximum 2 décimales.',
-            'price.min' => 'Le prix ne peut pas être négatif.',
-        ]);
-
-        $gift->update($validated);
+        $gift->update($request->validated());
 
         return redirect()->route('gifts.index')
             ->with('success', 'Cadeau modifié avec succès !');
     }
 
+    /**
+     * Supprime un cadeau
+     */
     public function destroy(Gift $gift)
     {
         $gift->delete();
