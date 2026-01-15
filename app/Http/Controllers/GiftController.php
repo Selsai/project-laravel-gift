@@ -24,16 +24,15 @@ class GiftController extends Controller
             'name' => 'required|string|min:3|max:50',
             'url' => 'nullable|url',
             'details' => 'nullable|string',
-            'price' => 'required|numeric|min:0|decimal:2',
+            'price' => 'required|decimal:2|min:0',
         ], [
             'name.required' => 'Le nom est obligatoire.',
             'name.min' => 'Le nom doit contenir au moins 3 caractères.',
             'name.max' => 'Le nom ne peut pas dépasser 50 caractères.',
-            'url.url' => 'L\'URL doit être valide (http:// ou https://).',
+            'url.url' => 'L\'URL doit commencer par http:// ou https://.',
             'price.required' => 'Le prix est obligatoire.',
-            'price.numeric' => 'Le prix doit être un nombre.',
+            'price.decimal' => 'Le prix doit être un nombre décimal.',
             'price.min' => 'Le prix ne peut pas être négatif.',
-            'price.decimal' => 'Le prix ne peut avoir que 2 chiffres après la virgule.',
         ]);
 
         Gift::create($validated);
@@ -57,16 +56,15 @@ class GiftController extends Controller
             'name' => 'required|string|min:3|max:50',
             'url' => 'nullable|url',
             'details' => 'nullable|string',
-            'price' => 'required|numeric|min:0|decimal:2',
+            'price' => 'required|decimal:2|min:0',
         ], [
             'name.required' => 'Le nom est obligatoire.',
             'name.min' => 'Le nom doit contenir au moins 3 caractères.',
             'name.max' => 'Le nom ne peut pas dépasser 50 caractères.',
-            'url.url' => 'L\'URL doit être valide (http:// ou https://).',
+            'url.url' => 'L\'URL doit commencer par http:// ou https://.',
             'price.required' => 'Le prix est obligatoire.',
-            'price.numeric' => 'Le prix doit être un nombre.',
+            'price.decimal' => 'Le prix doit être un nombre décimal.',
             'price.min' => 'Le prix ne peut pas être négatif.',
-            'price.decimal' => 'Le prix ne peut avoir que 2 chiffres après la virgule.',
         ]);
 
         $gift->update($validated);
