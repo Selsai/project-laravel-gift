@@ -24,14 +24,14 @@ class GiftController extends Controller
             'name' => 'required|string|min:3|max:50',
             'url' => 'nullable|url:http,https',
             'details' => 'nullable|string',
-            'price' => 'required|decimal:2|min:0',
+            'price' => 'required|numeric|min:0',
         ], [
             'name.required' => 'Le nom est obligatoire.',
             'name.min' => 'Le nom doit contenir au moins 3 caractères.',
             'name.max' => 'Le nom ne peut pas dépasser 50 caractères.',
             'url.url' => 'L\'URL doit commencer par http:// ou https://.',
             'price.required' => 'Le prix est obligatoire.',
-            'price.decimal' => 'Le prix doit être un nombre décimal.',
+            'price.numeric' => 'Le prix doit être un nombre.',
             'price.min' => 'Le prix ne peut pas être négatif.',
         ]);
 
@@ -54,16 +54,16 @@ class GiftController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|min:3|max:50',
-            'url' => 'nullable|url',
+            'url' => 'nullable|url:http,https',
             'details' => 'nullable|string',
-            'price' => 'required|decimal:2|min:0',
+            'price' => 'required|numeric|min:0',
         ], [
             'name.required' => 'Le nom est obligatoire.',
             'name.min' => 'Le nom doit contenir au moins 3 caractères.',
             'name.max' => 'Le nom ne peut pas dépasser 50 caractères.',
             'url.url' => 'L\'URL doit commencer par http:// ou https://.',
             'price.required' => 'Le prix est obligatoire.',
-            'price.decimal' => 'Le prix doit être un nombre décimal.',
+            'price.numeric' => 'Le prix doit être un nombre.',
             'price.min' => 'Le prix ne peut pas être négatif.',
         ]);
 
