@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gift;
 use App\Http\Requests\GiftRequest;
+use Illuminate\Support\Facades\Mail;
 
 class GiftController extends Controller
 {
@@ -29,7 +30,16 @@ class GiftController extends Controller
      */
     public function store(GiftRequest $request)
     {
-        Gift::create($request->validated());
+        $gift = Gift::create($request->validated());
+
+        // Envoi de l'email de confirmation
+        Mail::raw(
+            "Le cadeau {$gift->name} a bien été ajouté ({$gift->price}€)",
+            function ($message) {
+                $message->to('test@example.com')
+                    ->subject('Nouveau cadeau ajouté');
+            }
+        );
 
         return redirect()->route('gifts.index')
             ->with('success', 'Cadeau créé avec succès !');
@@ -44,7 +54,7 @@ class GiftController extends Controller
     }
 
     /**
-     * Affiche le formulaire d’édition
+     * Affiche le formulaire d'édition
      */
     public function edit(Gift $gift)
     {
